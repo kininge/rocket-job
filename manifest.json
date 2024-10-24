@@ -1,0 +1,16 @@
+{
+	"manifest_version": 3,
+	"name": "Job-Hunter",
+	"version": "1.0.0",
+	"description": "Help you to instantly create your resume in many formats so you can apply for job.",
+	"author": "Pritam Kinige",
+	"action": {
+		"default_popup": "index.html",
+		"default_title": "job Hunter"
+	},
+	"icons": {
+		"64": "icons/job-hunter-64.png",
+		"128": "icons/job-hunter-128.png",
+		"512": "icons/job-hunter-512.png"
+	}
+}

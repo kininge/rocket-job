@@ -1,0 +1,41 @@
+<!-- @format -->
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Job Hunter</title>
+
+		<script src="./index.js"></script>
+		<!-- tailwind -->
+		<script src="https://cdn.tailwindcss.com"></script>
+		<!-- theme update -->
+		<script>
+			tailwind.config = {
+				theme: {
+					extend: {
+						colors: {
+							// colors goes here
+						},
+					},
+				},
+			};
+		</script>
+		<!-- add custom style -->
+		<style type="text/tailwindcss">
+			@layer utilities {
+				/* custom style classes */
+			}
+		</style>
+	</head>
+	<body>
+		<div
+			id="extension-container"
+			class="w-96 h-20 bg-slate-200 flex flex-col justify-center items-center"
+		>
+			<h1>Hello World!</h1>
+			<h2>Our first chrome extension</h2>
+		</div>
+	</body>
+</html>
