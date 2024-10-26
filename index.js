@@ -1,21 +1,29 @@
 /** @format */
 
-var uploadButtonElement = null;
+var updateButtonElement = null;
+var jobDescriptionElement = null;
 
 window.addEventListener("load", () => {
-	uploadButtonElement = document.getElementById("uploadButton");
+	updateButtonElement = document.getElementById("updateButton");
+	jobDescriptionElement = document.getElementById("jobDescription");
 
 	// events
-	uploadButtonElement.addEventListener("click", handleUploadUserData);
+	updateButtonElement.addEventListener("click", handleUpdateResume);
 });
 
-function handleUploadUserData() {
+async function handleUpdateResume() {
 	// Getting user input file
 	const fileInput = document.getElementById("fileInput");
 	const file = fileInput.files[0];
 
 	if (!file) {
-		alert("Please select a file.");
+		alert("Please select a resume file.");
+		return;
+	}
+
+	const jobDescription = jobDescriptionElement.value.trim();
+	if (!jobDescription) {
+		alert("Please enter a job description.");
 		return;
 	}
 
@@ -23,11 +31,23 @@ function handleUploadUserData() {
 
 	reader.onload = function (event) {
 		try {
-			const jsonData = JSON.stringify(event.target.result);
-			console.log("Uploaded JSON data:", jsonData);
-			localStorage.setItem("DummyDataTesting", jsonData);
+			const resumeText = event.target.result;
+			let jsonData;
+			
+			// Try to parse the resume text as JSON
+			try {
+				jsonData = JSON.parse(resumeText);
+			} catch (jsonError) {
+				// If parsing fails, use the raw text
+				jsonData = resumeText;
+			}
+
+			const prompt = createPrompt(jsonData, jobDescription);
+			// console.log(prompt);
+			displayPrompt(prompt);
 		} catch (error) {
-			alert("Error parsing JSON: " + error.message);
+			console.error("Error processing file:", error);
+			alert("Error processing file: " + error.message);
 		}
 	};
 
@@ -37,3 +57,63 @@ function handleUploadUserData() {
 
 	reader.readAsText(file);
 }
+
+function createPrompt(jsonResume, jobDescription) {
+	return `Given the following job description in plain text and my resume in JSON format, analyze the job description and identify the most relevant skills and experiences. Update only the **skills**, **projects**, and **job responsibilities** in the JSON resume based on relevance to the job description. Do **not** change my personal information, education, job titles, or dates of employment. Ensure the JSON format remains the same as the input.
+
+**Job Description:**
+${jobDescription}
+
+**Current JSON Resume:**
+${JSON.stringify(jsonResume, null, 2)}
+
+**Output:**
+{Provide the updated JSON resume with relevant skills, projects, and experiences based on the job description, while keeping the structure and key details intact.}`;
+}
+
+function displayPrompt(prompt) {
+	const promptDisplay = document.getElementById('promptDisplay');
+	if (promptDisplay) {
+		promptDisplay.innerHTML = `
+			<div class="bg-gray-100 rounded p-2 w-full max-w-md">
+				<div class="flex justify-end mb-2">
+					<!-- Copy button will be added here -->
+				</div>
+				<div class="prompt-content h-24 overflow-y-auto text-sm">
+					<pre class="whitespace-pre-wrap break-words">${prompt}</pre>
+				</div>
+			</div>
+		`;
+		promptDisplay.classList.remove('hidden');
+
+		// Add the copy button at the top
+		addCopyButton(promptDisplay.querySelector('.flex.justify-end'), prompt);
+	} else {
+		console.error("Element with id 'promptDisplay' not found");
+		alert("Error: Unable to display prompt. Please check the console for more information.");
+	}
+}
+
+function addCopyButton(targetElement, textToCopy) {
+	const copyButton = document.createElement('button');
+	copyButton.textContent = 'Copy';
+	copyButton.className = 'px-2 py-1 bg-gray-200 hover:bg-gray-300 rounded text-xs';
+	copyButton.addEventListener('click', () => {
+		navigator.clipboard.writeText(textToCopy)
+			.then(() => {
+				copyButton.textContent = 'Copied!';
+				setTimeout(() => {
+					copyButton.textContent = 'Copy';
+				}, 2000);
+			})
+			.catch(err => {
+				console.error('Failed to copy text: ', err);
+				alert('Failed to copy text. Please try again.');
+			});
+	});
+	targetElement.appendChild(copyButton);
+}
+
+const anotherElement = document.getElementById('anotherElement');
+const textToCopy = "Some other text to copy";
+addCopyButton(anotherElement, textToCopy);
