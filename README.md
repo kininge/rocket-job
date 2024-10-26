@@ -36,6 +36,12 @@ Job Hunter is a browser extension designed to help job seekers tailor their resu
 
 - Tailwind CSS (loaded via CDN)
 
+## TODO
+
+- [ ] Define and document the required JSON resume format
+- [ ] Implement input validation for the JSON resume format
+- [ ] Create a sample JSON resume file for users to reference
+
 ## Future Scope
 
 1. AI Integration: Integrate an AI model directly into the extension.
