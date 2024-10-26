@@ -12,13 +12,36 @@ window.addEventListener("load", () => {
 });
 
 async function handleUpdateResume() {
-	// Getting user input file
+	let jsonResume;
 	const fileInput = document.getElementById("fileInput");
-	const file = fileInput.files[0];
-
-	if (!file) {
-		alert("Please select a resume file.");
-		return;
+	
+	if (fileInput.files.length > 0) {
+		// Use the newly selected file
+		const file = fileInput.files[0];
+		const reader = new FileReader();
+		reader.onload = function (event) {
+			try {
+				const jsonResume = JSON.parse(event.target.result);
+				localStorage.setItem("storedJsonResume", JSON.stringify(jsonResume));
+				alert("Resume JSON loaded and stored successfully!");
+			} catch (error) {
+				console.error("Error processing file:", error);
+				alert("Error processing file: " + error.message);
+			}
+		};
+		jsonResume = await new Promise((resolve) => {
+			reader.onload = (e) => resolve(JSON.parse(e.target.result));
+			reader.readAsText(file);
+		});
+	} else {
+		// Use stored resume from local storage
+		const storedResume = localStorage.getItem("storedJsonResume");
+		if (storedResume) {
+			jsonResume = JSON.parse(storedResume);
+		} else {
+			alert("Please upload a resume JSON file.");
+			return;
+		}
 	}
 
 	const jobDescription = jobDescriptionElement.value.trim();
@@ -27,35 +50,8 @@ async function handleUpdateResume() {
 		return;
 	}
 
-	const reader = new FileReader();
-
-	reader.onload = function (event) {
-		try {
-			const resumeText = event.target.result;
-			let jsonData;
-			
-			// Try to parse the resume text as JSON
-			try {
-				jsonData = JSON.parse(resumeText);
-			} catch (jsonError) {
-				// If parsing fails, use the raw text
-				jsonData = resumeText;
-			}
-
-			const prompt = createPrompt(jsonData, jobDescription);
-			// console.log(prompt);
-			displayPrompt(prompt);
-		} catch (error) {
-			console.error("Error processing file:", error);
-			alert("Error processing file: " + error.message);
-		}
-	};
-
-	reader.onerror = function () {
-		alert("Error reading file.");
-	};
-
-	reader.readAsText(file);
+	const prompt = createPrompt(jsonResume, jobDescription);
+	displayPrompt(prompt);
 }
 
 function createPrompt(jsonResume, jobDescription) {
