@@ -75,12 +75,12 @@ function displayPrompt(prompt) {
 	const promptDisplay = document.getElementById('promptDisplay');
 	if (promptDisplay) {
 		promptDisplay.innerHTML = `
-			<div class="bg-gray-100 rounded p-2 w-full max-w-md">
+			<div class="bg-gray-100 rounded p-4 w-full flex flex-col">
 				<div class="flex justify-end mb-2">
 					<!-- Copy button will be added here -->
 				</div>
-				<div class="prompt-content h-24 overflow-y-auto text-sm">
-					<pre class="whitespace-pre-wrap break-words">${prompt}</pre>
+				<div class="prompt-content overflow-y-auto" style="max-height: calc(100vh - 300px);">
+					<pre class="whitespace-pre-wrap break-words text-sm">${escapeHtml(prompt)}</pre>
 				</div>
 			</div>
 		`;
@@ -114,6 +114,12 @@ function addCopyButton(targetElement, textToCopy) {
 	targetElement.appendChild(copyButton);
 }
 
-const anotherElement = document.getElementById('anotherElement');
-const textToCopy = "Some other text to copy";
-addCopyButton(anotherElement, textToCopy);
+
+function escapeHtml(unsafe) {
+	return unsafe
+		.replace(/&/g, "&amp;")
+		.replace(/</g, "&lt;")
+		.replace(/>/g, "&gt;")
+		.replace(/"/g, "&quot;")
+		.replace(/'/g, "&#039;");
+}
