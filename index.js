@@ -14,44 +14,49 @@ window.addEventListener("load", () => {
 async function handleUpdateResume() {
 	let jsonResume;
 	const fileInput = document.getElementById("fileInput");
-	
-	if (fileInput.files.length > 0) {
-		// Use the newly selected file
+	const jobDescription = document.getElementById("jobDescription").value;
+
+	// First, try to get the stored resume
+	const storedResume = localStorage.getItem("storedJsonResume");
+
+	if (storedResume) {
+		jsonResume = JSON.parse(storedResume);
+		const prompt = createPrompt(jsonResume, jobDescription);
+		displayPrompt(prompt);
+	} else if (fileInput.files.length > 0) {
 		const file = fileInput.files[0];
 		const reader = new FileReader();
+
 		reader.onload = function (event) {
 			try {
-				const jsonResume = JSON.parse(event.target.result);
-				localStorage.setItem("storedJsonResume", JSON.stringify(jsonResume));
-				alert("Resume JSON loaded and stored successfully!");
+				const resumeText = event.target.result;
+				let jsonData;
+				
+				// Try to parse the resume text as JSON
+				try {
+					jsonData = JSON.parse(resumeText);
+				} catch (jsonError) {
+					// If parsing fails, use the raw text
+					jsonData = resumeText;
+				}
+
+				localStorage.setItem("storedJsonResume", JSON.stringify(jsonData));
+				const prompt = createPrompt(jsonData, jobDescription);
+				displayPrompt(prompt);
 			} catch (error) {
 				console.error("Error processing file:", error);
 				alert("Error processing file: " + error.message);
 			}
 		};
-		jsonResume = await new Promise((resolve) => {
-			reader.onload = (e) => resolve(JSON.parse(e.target.result));
-			reader.readAsText(file);
-		});
+
+		reader.onerror = function () {
+			alert("Error reading file.");
+		};
+
+		reader.readAsText(file);
 	} else {
-		// Use stored resume from local storage
-		const storedResume = localStorage.getItem("storedJsonResume");
-		if (storedResume) {
-			jsonResume = JSON.parse(storedResume);
-		} else {
-			alert("Please upload a resume JSON file.");
-			return;
-		}
+		alert("Please upload a resume file or use a previously stored resume.");
 	}
-
-	const jobDescription = jobDescriptionElement.value.trim();
-	if (!jobDescription) {
-		alert("Please enter a job description.");
-		return;
-	}
-
-	const prompt = createPrompt(jsonResume, jobDescription);
-	displayPrompt(prompt);
 }
 
 function createPrompt(jsonResume, jobDescription) {
