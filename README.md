@@ -43,9 +43,9 @@ Job Hunter is a browser extension designed to help job seekers tailor their resu
 - [ ] Create a sample JSON resume file for users to reference
 
 ## Future Scope
-
-1. AI Integration: Integrate an AI model directly into the extension.
-2. Multiple Resume Formats: Support various resume formats (e.g., PDF, DOCX).
+1. Currently We are generating prompt for the whole resume, we can generate prompt for specific sections of resume like skills, projects, experience etc.
+2. AI Integration: Integrate an AI model directly into the extension.
+3. Multiple Resume Formats: Support various resume formats (e.g., PDF, DOCX).
 3. Job Description Scraping: Automatically scrape job descriptions from job boards.
 4. Resume Analytics: Analyze resumes and provide improvement suggestions.
 5. Job Matching: Develop an algorithm to match resumes with job descriptions.
