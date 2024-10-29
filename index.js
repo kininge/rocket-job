@@ -19,11 +19,7 @@ async function handleUpdateResume() {
 	// First, try to get the stored resume
 	const storedResume = localStorage.getItem("storedJsonResume");
 
-	if (storedResume) {
-		jsonResume = JSON.parse(storedResume);
-		const prompt = createPrompt(jsonResume, jobDescription);
-		displayPrompt(prompt);
-	} else if (fileInput.files.length > 0) {
+	if (fileInput.files.length > 0) {
 		const file = fileInput.files[0];
 		const reader = new FileReader();
 
@@ -54,6 +50,10 @@ async function handleUpdateResume() {
 		};
 
 		reader.readAsText(file);
+	} else if (storedResume) {
+		jsonResume = JSON.parse(storedResume);
+		const prompt = createPrompt(jsonResume, jobDescription);
+		displayPrompt(prompt);
 	} else {
 		alert("Please upload a resume file or use a previously stored resume.");
 	}
