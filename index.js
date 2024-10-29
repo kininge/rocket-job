@@ -1,5 +1,10 @@
 /** @format */
 
+// Import the resume template
+const template1 = document.createElement('script');
+template1.src = './ResumeTemplates/Template1.js';
+document.head.appendChild(template1);
+
 var updateButtonElement = null;
 var jobDescriptionElement = null;
 
@@ -83,15 +88,83 @@ function displayPrompt(prompt) {
 				<div class="prompt-content overflow-y-auto" style="max-height: calc(100vh - 300px);">
 					<pre class="whitespace-pre-wrap break-words text-sm">${escapeHtml(prompt)}</pre>
 				</div>
+				<!-- Add textarea for LLM response -->
+				<div class="mt-4">
+					<textarea id="llmResponse" class="w-full p-2 border rounded" 
+						placeholder="Paste the LLM response here..." rows="4"></textarea>
+					<button id="generateResumeBtn" 
+						class="mt-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+						Generate Resume
+					</button>
+				</div>
 			</div>
 		`;
 		promptDisplay.classList.remove('hidden');
 
 		// Add the copy button at the top
 		addCopyButton(promptDisplay.querySelector('.flex.justify-end'), prompt);
+
+		// Add event listener for generate resume button
+		document.getElementById('generateResumeBtn').addEventListener('click', handleGenerateResume);
 	} else {
 		console.error("Element with id 'promptDisplay' not found");
 		alert("Error: Unable to display prompt. Please check the console for more information.");
+	}
+}
+
+async function handleGenerateResume() {
+	const llmResponse = document.getElementById('llmResponse').value;
+	
+	try {
+		const jsonResume = JSON.parse(llmResponse);
+		// Open a new window with print-friendly styles
+		const newWindow = window.open('', '_blank');
+		newWindow.document.write(`
+			<!DOCTYPE html>
+			<html lang="en">
+			<head>
+				<meta charset="UTF-8">
+				<meta name="viewport" content="width=device-width, initial-scale=1.0">
+				<title>Your Resume</title>
+				<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+				<style>
+					body {
+						margin: 0;
+						padding: 20px;
+						background: white;
+					}
+					#resume-container {
+						max-width: 8.5in;
+						margin: 0 auto;
+					}
+					@media print {
+						body {
+							padding: 0;
+						}
+						#print-button {
+							display: none;
+						}
+					}
+				</style>
+			</head>
+			<body>
+				<div id="print-button" style="text-align: center; margin-bottom: 20px;">
+					<button onclick="window.print()" style="padding: 10px 20px; background: #4CAF50; color: white; border: none; border-radius: 4px; cursor: pointer;">
+						Save as PDF
+					</button>
+				</div>
+				<div id="resume-container"></div>
+				<script>
+					const resumeData = ${JSON.stringify(jsonResume)};
+				</script>
+				<script src="./ResumeTemplates/Template1.js"></script>
+			</body>
+			</html>
+		`);
+		newWindow.document.close();
+	} catch (error) {
+		console.error("Error parsing LLM response:", error);
+		alert("Error: The LLM response must be valid JSON. Please check the format and try again.");
 	}
 }
 
