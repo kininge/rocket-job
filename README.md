@@ -38,24 +38,23 @@ Job Hunter is a browser extension designed to help job seekers tailor their resu
 
 ## TODO
 
-- [ ] Define and document the required JSON resume format
-- [ ] Implement input validation for the JSON resume format
-- [ ] Create a sample JSON resume file for users to reference
+- [X] Define and document the required JSON resume format
+- [X] Implement input validation for the JSON resume format
+- [X] Create a sample JSON resume file for users to reference
 
 ## Future Scope
 1. Currently We are generating prompt for the whole resume, we can generate prompt for specific sections of resume like skills, projects, experience etc.
-2. AI Integration: Integrate an AI model directly into the extension.
-3. Multiple Resume Formats: Support various resume formats (e.g., PDF, DOCX).
-3. Job Description Scraping: Automatically scrape job descriptions from job boards.
-4. Resume Analytics: Analyze resumes and provide improvement suggestions.
-5. Job Matching: Develop an algorithm to match resumes with job descriptions.
-6. Interview Preparation: Generate potential interview questions.
-7. Multi-language Support: Implement support for multiple languages.
-8. Cloud Sync: Allow users to sync their data across devices.
-9. Application Tracking: Develop a system to track job applications.
-10. Resume Version Control: Manage multiple versions of a user's resume.
-11. Privacy Enhancements: Add options for users to control shared information.
-12. Customizable Prompts: Allow users to customize the AI prompt template.
+2. Customizable Prompts: Allow users to customize the AI prompt template.
+3. AI Integration: Integrate an AI model directly into the extension.
+4. Multiple Resume Formats: Support various resume formats (e.g., PDF, DOCX).
+5. Job Description Scraping: Automatically scrape job descriptions from job boards.
+6. Resume Analytics: Analyze resumes and provide improvement suggestions.
+7. Job Matching: Develop an algorithm to match resumes with job descriptions.
+8. Interview Preparation: Generate potential interview questions.
+9. Multi-language Support: Implement support for multiple languages.
+10. Application Tracking: Develop a system to track job applications.
+11. Resume Version Control: Manage multiple versions of a user's resume.
+12. Privacy Enhancements: Add options for users to control shared information.
 13. Integration with Professional Networks: Import resume data from sites like LinkedIn.
 14. Mobile App: Develop a companion mobile app.
 15. Browser Support: Extend compatibility to other popular browsers.
