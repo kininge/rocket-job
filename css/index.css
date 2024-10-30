@@ -1,0 +1,17 @@
+/** @format */
+
+@font-face {
+	font-family: "Nunito-light";
+	src: url("../assets/fonts/Nunito-Light.ttf");
+}
+@font-face {
+	font-family: "Nunito-bold";
+	src: url("../assets/fonts/Nunito-Bold.ttf");
+}
+
+* {
+	margin: 0px;
+	padding: 0px;
+	box-sizing: border-box;
+	font-family: "Nunito-bold";
+}
