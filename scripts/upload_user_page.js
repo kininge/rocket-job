@@ -57,6 +57,57 @@ function renderBeforeUploadSection() {
 	addText(uploadFileTextElement, CONSTANT.TEXT.UPLOAD_DATA);
 	setColor(uploadFileTextElement, THEME.secondryText);
 	addElement(uploadFileSectionElement, uploadFileTextElement);
+
+	// Create hidden file input
+	const fileInput = createElement("input");
+	setAttribute(fileInput, "type", "file");
+	setAttribute(fileInput, "accept", ".json");
+	setAttribute(fileInput, "id", "fileInput");
+	addAllClasses(fileInput, ["hidden"]);
+	addElement(uploadFileSectionElement, fileInput);
+
+	// Add click handler to the upload section
+	uploadFileSectionElement.addEventListener("click", () => {
+		fileInput.click();
+	});
+
+	// Add file change handler
+	fileInput.addEventListener("change", async (event) => {
+		const file = event.target.files[0];
+		if (!file) return;
+
+		const reader = new FileReader();
+
+		reader.onload = function(event) {
+			try {
+				const resumeText = event.target.result;
+				let jsonData;
+
+				try {
+					jsonData = JSON.parse(resumeText);
+				} catch (jsonError) {
+					alert("Invalid JSON format. Please check your file.");
+					return;
+				}
+
+				// Store in localStorage using our existing key
+				setLocalStorage(CONSTANT.LOCAL_STORAGE.USER_DATA, JSON.stringify(jsonData));
+				
+				// Redirect to welcome page
+				renderWelcomePage();
+			} catch (error) {
+				console.error("Error processing file:", error);
+				alert("Error processing file: " + error.message);
+			}
+		};
+
+		reader.onerror = function() {
+			alert("Error reading file.");
+		};
+
+		reader.readAsText(file);
+	});
+
 	// divider
 	const verticleDeviderElement = createElement("div");
 	addClass(verticleDeviderElement, "mx-6");
