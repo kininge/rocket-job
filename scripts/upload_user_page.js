@@ -1,5 +1,6 @@
 /** @format */
 
+var baseElement = null;
 var bodyElement = null;
 
 // render before upalod section
@@ -89,7 +90,7 @@ function renderBeforeUploadSection() {
 // render upload data page
 function renderUploadDataPage() {
 	// base element
-	const baseElement = createElement("section");
+	baseElement = createElement("section");
 	baseElement.id = "base-project";
 	addAllClasses(baseElement, [
 		"w-96",
