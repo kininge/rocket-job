@@ -3,7 +3,7 @@
 	"name": "Job-Hunter",
 	"version": "1.0.0",
 	"description": "Help you to instantly create your resume in many formats so you can apply for job.",
-	"author": "Pritam Kinige",
+	"author": "Pritam Kinige, Yaswanth",
 	"action": {
 		"default_popup": "index.html",
 		"default_title": "job Hunter"
