@@ -4,7 +4,7 @@ const CONSTANT = {
 	TEXT: {
 		UPLOAD_DATA_TITLE: "It seems we don't have your Data!",
 		UPLOAD_DATA_SUBTITLE:
-			"We recommend download 'example.json'. This JSON file content format of data we expected. Update your data there and then upload it and just deligate rest of job on us",
+			"We recommend downloading 'example.json'. This file contains the expected data format. Update your information in the file, upload it, and we'll handle the rest!",
 		UPLOAD_DATA: "Upload your data",
 		DOWNLOAD_FROMATE: "Download format",
 		RIGHTS: "All rights are reserved to 'Job Hunder'",
