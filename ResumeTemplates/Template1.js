@@ -35,7 +35,9 @@ function buildResume(data) {
   }
   
   // Call the function to build the resume
-  buildResume(resumeData);
+  if (typeof resumeData !== 'undefined') {
+    buildResume(resumeData);
+  }
   
   function createPersonalInfoSection(data) {
       const section = document.createElement('section');
