@@ -22,6 +22,8 @@ function renderWelcomePage() {
     addAllClasses(clearButton, ["bg-red-500", "text-white", "px-4", "py-2", "rounded"]);
     clearButton.addEventListener("click", () => {
         removeLocalStorage(CONSTANT.LOCAL_STORAGE.USER_DATA);
+        // before render upload data page, clear the html content with document.body.innerHTML = ''
+        document.body.innerHTML = '';
         renderUploadDataPage();
     });
     addElement(welcomeContainer, clearButton);
