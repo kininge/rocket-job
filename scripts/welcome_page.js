@@ -2,7 +2,7 @@
 
 // Add this at the top of the file
 const template1 = document.createElement('script');
-template1.src = './ResumeTemplates/Template1.js';
+template1.src = 'ResumeTemplates/Template1.js';
 template1.onerror = () => console.error('Failed to load resume template');
 template1.onload = () => console.log('Resume template loaded successfully');
 document.head.appendChild(template1);
@@ -184,27 +184,10 @@ function handleGenerateResume() {
 
     try {
         const resumeData = JSON.parse(llmResponse);
+        // Store data temporarily
+        localStorage.setItem('tempResumeData', JSON.stringify(resumeData));
         
-        // Create resume container if it doesn't exist
-        let resumeContainer = getElement("#resume-container");
-        if (!resumeContainer) {
-            resumeContainer = createElement("div");
-            setAttribute(resumeContainer, "id", "resume-container");
-            addElement(getElement("#welcome-container"), resumeContainer);
-        } else {
-            resumeContainer.innerHTML = ''; // Clear existing content
-        }
-
-        // Call buildResume directly since Template1.js is already loaded
-        buildResume(resumeData);
-        
-        // Add print button after resume is built
-        const printButton = createElement("button");
-        addText(printButton, "Print Resume");
-        addAllClasses(printButton, ["mt-4", "px-4", "py-2", "bg-blue-500", "text-white", "rounded"]);
-        printButton.addEventListener("click", () => window.print());
-        addElement(resumeContainer, printButton);
-        
+        const newWindow = window.open('resume.html', '_blank');
     } catch (error) {
         console.error("Error parsing LLM response:", error);
         alert("Error: The LLM response must be valid JSON. Please check the format and try again.");

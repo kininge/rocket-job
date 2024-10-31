@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Resume</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: white;
+        }
+        #resume-container {
+            max-width: 8.5in;
+            margin: 0 auto;
+        }
+        @media print {
+            body {
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="resume-container"></div>
+    
+    <!-- Load scripts in the correct order -->
+    <script src="ResumeTemplates/Template1.js"></script>
+    <script src="scripts/resume_handler.js"></script>
+</body>
+</html> 
