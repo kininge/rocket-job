@@ -276,6 +276,15 @@ function buildResume(data) {
         const descriptionItem = document.createElement('li');
         descriptionItem.textContent = project.description;
         descriptionList.appendChild(descriptionItem);
+        
+        if (project.highlights && project.highlights.length > 0) {
+          project.highlights.forEach(highlight => {
+            const highlightItem = document.createElement('li');
+            highlightItem.textContent = highlight;
+            descriptionList.appendChild(highlightItem);
+          });
+        }
+        
         projectDiv.appendChild(descriptionList);
       }
   
