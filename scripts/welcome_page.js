@@ -2,7 +2,9 @@
 
 // Add this at the top of the file
 const template1 = document.createElement('script');
-template1.src = '/rocket-job/ResumeTemplates/Template1.js';
+template1.src = './ResumeTemplates/Template1.js';
+template1.onerror = () => console.error('Failed to load resume template');
+template1.onload = () => console.log('Resume template loaded successfully');
 document.head.appendChild(template1);
 
 // render welcome page
@@ -12,6 +14,7 @@ function renderWelcomePage() {
     
     const welcomeContainer = createElement("div");
     addAllClasses(welcomeContainer, ["w-96", "p-4", "rounded-xl"]);
+    setAttribute(welcomeContainer, "id", "welcome-container");
     setBackgourndColor(welcomeContainer, THEME.primaryBackground);
 
     // Add welcome message
@@ -21,13 +24,26 @@ function renderWelcomePage() {
     setColor(welcomeMessage, THEME.primaryText);
     addElement(welcomeContainer, welcomeMessage);
 
-    // Add button to clear data and return to upload page
+    // Add job description input
+    const jobDescInput = createElement("textarea");
+    setAttribute(jobDescInput, "id", "jobDescription");
+    setAttribute(jobDescInput, "placeholder", "Paste job description here...");
+    addAllClasses(jobDescInput, ["w-full", "p-2", "mb-4", "rounded"]);
+    addElement(welcomeContainer, jobDescInput);
+
+    // Add generate prompt button
+    const generateButton = createElement("button");
+    addText(generateButton, "Generate Prompt");
+    addAllClasses(generateButton, ["bg-blue-500", "text-white", "px-4", "py-2", "rounded", "mb-4"]);
+    generateButton.addEventListener("click", handleGeneratePrompt);
+    addElement(welcomeContainer, generateButton);
+
+    // Add clear data button
     const clearButton = createElement("button");
     addText(clearButton, "Clear Data");
     addAllClasses(clearButton, ["bg-red-500", "text-white", "px-4", "py-2", "rounded"]);
     clearButton.addEventListener("click", () => {
         removeLocalStorage(CONSTANT.LOCAL_STORAGE.USER_DATA);
-        // before render upload data page, clear the html content with document.body.innerHTML = ''
         document.body.innerHTML = '';
         renderUploadDataPage();
     });
@@ -167,9 +183,28 @@ function handleGenerateResume() {
     }
 
     try {
-        const jsonResume = JSON.parse(llmResponse);
-        // TODO: Implement resume generation logic
-        console.log("Generating resume with:", jsonResume);
+        const resumeData = JSON.parse(llmResponse);
+        
+        // Create resume container if it doesn't exist
+        let resumeContainer = getElement("#resume-container");
+        if (!resumeContainer) {
+            resumeContainer = createElement("div");
+            setAttribute(resumeContainer, "id", "resume-container");
+            addElement(getElement("#welcome-container"), resumeContainer);
+        } else {
+            resumeContainer.innerHTML = ''; // Clear existing content
+        }
+
+        // Call buildResume directly since Template1.js is already loaded
+        buildResume(resumeData);
+        
+        // Add print button after resume is built
+        const printButton = createElement("button");
+        addText(printButton, "Print Resume");
+        addAllClasses(printButton, ["mt-4", "px-4", "py-2", "bg-blue-500", "text-white", "rounded"]);
+        printButton.addEventListener("click", () => window.print());
+        addElement(resumeContainer, printButton);
+        
     } catch (error) {
         console.error("Error parsing LLM response:", error);
         alert("Error: The LLM response must be valid JSON. Please check the format and try again.");
