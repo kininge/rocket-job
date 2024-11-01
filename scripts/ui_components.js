@@ -97,4 +97,46 @@ function handleCopyPrompt(button, text) {
             console.error("Failed to copy text: ", err);
             alert("Failed to copy text. Please try again.");
         });
+}
+
+function createPromptDisplay(prompt) {
+    const promptDisplay = createElement("div");
+    addAllClasses(promptDisplay, [
+        "w-full", 
+        "bg-gray-100", 
+        "rounded", 
+        "p-4", 
+        "flex", 
+        "flex-col"
+    ]);
+
+    addElement(promptDisplay, createPromptHeader(prompt));
+    
+    // Create collapsed content div with max height
+    const contentDiv = createPromptContent(prompt);
+    contentDiv.style.maxHeight = "100px";
+    contentDiv.style.overflow = "hidden";
+    contentDiv.style.transition = "max-height 0.3s ease-out";
+    
+    // Add expand button
+    const expandButton = createElement("button");
+    addText(expandButton, "Show More");
+    addAllClasses(expandButton, ["text-blue-500", "text-sm", "mt-2"]);
+    expandButton.addEventListener("click", () => {
+        if (contentDiv.style.maxHeight === "100px") {
+            contentDiv.style.maxHeight = "300px";
+            contentDiv.style.overflowY = "auto";
+            expandButton.textContent = "Show Less";
+        } else {
+            contentDiv.style.maxHeight = "100px";
+            contentDiv.style.overflowY = "hidden";
+            expandButton.textContent = "Show More";
+        }
+    });
+
+    addElement(promptDisplay, contentDiv);
+    addElement(promptDisplay, expandButton);
+    addElement(promptDisplay, createLLMResponseSection());
+
+    return promptDisplay;
 } 

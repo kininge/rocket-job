@@ -31,21 +31,7 @@ function createPrompt(jsonResume, jobDescription) {
 }
 
 function displayPrompt(prompt) {
-    const promptDisplay = createElement("div");
-    addAllClasses(promptDisplay, [
-        "w-full", 
-        "bg-gray-100", 
-        "rounded", 
-        "p-4", 
-        "flex", 
-        "flex-col"
-    ]);
-
-    addElement(promptDisplay, createPromptHeader(prompt));
-    addElement(promptDisplay, createPromptContent(prompt));
-    addElement(promptDisplay, createLLMResponseSection());
-
-    // Add to welcome container
+    const promptDisplay = createPromptDisplay(prompt);
     const welcomeContainer = getElement("div");
     addElement(welcomeContainer, promptDisplay);
 } 
