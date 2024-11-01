@@ -13,5 +13,16 @@
 		"64": "icons/job-hunter-64.png",
 		"128": "icons/job-hunter-128.png",
 		"512": "icons/job-hunter-512.png"
-	}
+	},
+	"content_security_policy": {
+		"extension_pages": "script-src 'self'; object-src 'self'"
+	},
+	"web_accessible_resources": [{
+		"resources": [
+			"resume.html",
+			"ResumeTemplates/*",
+			"scripts/*"
+		],
+		"matches": ["<all_urls>"]
+	}]
 }
