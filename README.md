@@ -25,16 +25,8 @@ Job Hunter is a browser extension designed to help job seekers tailor their resu
 3. Paste the job description into the provided text area
 4. Click "Generate Prompt"
 5. Use the generated prompt with an AI model (e.g., ChatGPT) to tailor your resume
+6. paste the prompt in the AI model and get the updated resume by clicking generate resume.
 
-## Project Structure
-
-- `index.html`: The main popup interface
-- `index.js`: Contains the core functionality of the extension
-- `manifest.json`: Extension configuration file
-
-## Dependencies
-
-- Tailwind CSS (loaded via CDN)
 
 ## TODO
 
@@ -56,7 +48,6 @@ Job Hunter is a browser extension designed to help job seekers tailor their resu
 11. Resume Version Control: Manage multiple versions of a user's resume.
 12. Privacy Enhancements: Add options for users to control shared information.
 13. Integration with Professional Networks: Import resume data from sites like LinkedIn.
-14. Mobile App: Develop a companion mobile app.
 15. Browser Support: Extend compatibility to other popular browsers.
 
 ## Contributing
