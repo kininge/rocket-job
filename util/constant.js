@@ -132,3 +132,5 @@ const CONSTANT = {
 		],
 	},
 };
+
+const RESUME_SECTIONS_TO_UPDATE = ['projects', 'skills', 'work'];
