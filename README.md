@@ -33,6 +33,9 @@ Job Hunter is a browser extension designed to help job seekers tailor their resu
 - [X] Define and document the required JSON resume format
 - [X] Implement input validation for the JSON resume format
 - [X] Create a sample JSON resume file for users to reference
+- [ ] copy right click generate resume
+- [ ] add support to json resume default template
+- [ ] LLM integration using api key
 
 ## Future Scope
 1. Currently We are generating prompt for the whole resume, we can generate prompt for specific sections of resume like skills, projects, experience etc.
